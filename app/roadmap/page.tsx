@@ -20,7 +20,7 @@ const fases = [
     numero: 1,
     titulo: "Autenticação e Controle de Acesso",
     descricao: "Login real com Supabase Auth. Sessão protegida e usuário Admin configurado.",
-    status: "current",
+    status: "done",
     itens: [
       "Conexão com Supabase",
       "Login com email e senha",
@@ -31,9 +31,9 @@ const fases = [
   },
   {
     numero: 2,
-    titulo: "Cadastro de Produtos e SKUs",
-    descricao: "Catálogo completo de produtos com variações, fornecedores e categorias.",
-    status: "pending",
+    titulo: "Cadastro de Produtos, SKUs e Clientes",
+    descricao: "Catálogo completo de produtos com variações, fornecedores, categorias e base de clientes B2B.",
+    status: "current",
     itens: [
       "CRUD de categorias",
       "CRUD de fornecedores com validação de CNPJ",
@@ -41,17 +41,33 @@ const fases = [
       "CRUD de SKUs (tamanho, cor, código de barras)",
       "Geração automática de código SKU",
       "Configuração de estoque mínimo e máximo",
+      "CRUD de clientes com limite de crédito e prazo padrão",
       "Soft delete — nenhum dado é apagado",
     ],
   },
   {
     numero: 3,
+    titulo: "Vendas e Contas a Receber",
+    descricao: "Pedidos de venda B2B com prazos de 15/30/45/60 dias e controle de recebíveis.",
+    status: "pending",
+    itens: [
+      "Registro de pedido de venda vinculado ao cliente",
+      "Validação de limite de crédito antes de confirmar",
+      "Geração automática de conta a receber",
+      "Prazos configuráveis: 15, 30, 45 ou 60 dias",
+      "Baixa de pagamento (parcial ou total)",
+      "Listagem de contas vencidas e a vencer",
+      "Cancelamento com estorno automático de estoque",
+    ],
+  },
+  {
+    numero: 4,
     titulo: "Movimentações de Estoque",
     descricao: "Núcleo do sistema. Registro imutável de todas as entradas, saídas e ajustes.",
     status: "pending",
     itens: [
       "Registro de entrada (compra sem NF-e)",
-      "Registro de saída (venda balcão)",
+      "Saída automática ao confirmar venda (Fase 3)",
       "Registro de devolução (cliente e fornecedor)",
       "Ajuste de inventário com justificativa obrigatória",
       "Bloqueio automático de saldo negativo",
@@ -60,9 +76,9 @@ const fases = [
     ],
   },
   {
-    numero: 4,
-    titulo: "Importação de NF-e",
-    descricao: "Upload de XML, validação na SEFAZ e entrada automática no estoque após confirmação.",
+    numero: 5,
+    titulo: "Importação de NF-e (Entrada)",
+    descricao: "Upload de XML de compra, validação na SEFAZ e entrada automática no estoque após confirmação.",
     status: "pending",
     itens: [
       "Upload e armazenamento do XML",
@@ -74,7 +90,7 @@ const fases = [
     ],
   },
   {
-    numero: 5,
+    numero: 6,
     titulo: "Inventário Periódico",
     descricao: "Contagem física do estoque com reconciliação automática de divergências.",
     status: "pending",
@@ -88,20 +104,21 @@ const fases = [
     ],
   },
   {
-    numero: 6,
+    numero: 7,
     titulo: "Alertas e Notificações",
-    descricao: "Monitoramento automático de estoque mínimo e movimentações suspeitas.",
+    descricao: "Monitoramento automático de estoque mínimo, contas vencidas e movimentações suspeitas.",
     status: "pending",
     itens: [
       "Alerta automático de estoque mínimo (via trigger)",
+      "Alerta de contas a receber vencidas",
       "Detecção de movimentações suspeitas",
       "Central de alertas com status (pendente, resolvido, ignorado)",
-      "Notificação por e-mail para Admin",
+      "Notificação por e-mail para Admin e Financeiro",
       "Badge de alertas em tempo real na sidebar",
     ],
   },
   {
-    numero: 7,
+    numero: 8,
     titulo: "Relatórios e Analytics",
     descricao: "Visão gerencial completa com exportação em CSV e PDF.",
     status: "pending",
@@ -109,6 +126,7 @@ const fases = [
       "Curva ABC de giro por produto",
       "CMV (Custo de Mercadoria Vendida) por período",
       "Posição atual de estoque com custo médio",
+      "Contas a receber em aberto e inadimplência por cliente",
       "Histórico de movimentações com filtros",
       "Relatório de auditoria por usuário",
       "Exportação CSV e PDF",
@@ -160,7 +178,7 @@ export default function RoadmapPage() {
               </p>
               <h1 className="text-3xl font-bold text-gray-900">Roadmap de Desenvolvimento</h1>
               <p className="text-gray-500 mt-2">
-                Varejo de materiais de limpeza · {totalFases} fases · Atualizado em maio de 2026
+                Distribuidora B2B de materiais de limpeza · {totalFases} fases · Atualizado em maio de 2026
               </p>
             </div>
             <div className="text-right shrink-0 ml-8">
@@ -179,7 +197,7 @@ export default function RoadmapPage() {
             </div>
             <div className="flex justify-between mt-2 text-xs text-gray-400">
               <span>{concluidas} de {totalFases} fases concluídas</span>
-              <span>{totalFases - concluidas - 1} fases restantes</span>
+              <span>{totalFases - concluidas} fases restantes</span>
             </div>
           </div>
         </div>
@@ -238,8 +256,8 @@ export default function RoadmapPage() {
 
         {/* Footer */}
         <div className="mt-10 pt-8 border-t border-gray-200 flex items-center justify-between text-xs text-gray-400">
-          <p>Stack: Next.js 14 · TypeScript · Tailwind · Supabase (PostgreSQL)</p>
-          <p>Arquitetura event-sourcing · Dados imutáveis · RLS por perfil</p>
+          <p>Stack: Next.js · TypeScript · Tailwind · Supabase (PostgreSQL)</p>
+          <p>Vendas B2B a crédito · Event-sourcing · Dados imutáveis · RLS por perfil</p>
         </div>
       </div>
     </div>
