@@ -1,27 +1,18 @@
-import { Plus, Pencil, PowerOff } from "lucide-react";
+import { Pencil, PowerOff } from "lucide-react";
+import { createClient } from "@/lib/supabase/server"
+import { NovaCategoriaModal } from "./nova-categoria-modal"
 
-const categorias = [
-  { id: 1, nome: "Detergentes", descricao: "Detergentes neutros, concentrados e especiais", produtos: 12, ativo: true },
-  { id: 2, nome: "Sabões", descricao: "Sabão em barra, líquido e em pó", produtos: 8, ativo: true },
-  { id: 3, nome: "Sanitizantes", descricao: "Água sanitária e alvejantes", produtos: 6, ativo: true },
-  { id: 4, nome: "Desinfetantes", descricao: "Desinfetantes de uso geral e banheiro", produtos: 9, ativo: true },
-  { id: 5, nome: "Limpeza Geral", descricao: "Produtos multiuso, limpa vidros e superfícies", produtos: 11, ativo: true },
-  { id: 6, nome: "Lavanderia", descricao: "Amaciantes, tira-manchas e lava-roupas", produtos: 7, ativo: true },
-  { id: 7, nome: "Higiene Pessoal", descricao: "Álcool em gel e antissépticos", produtos: 4, ativo: false },
-];
-
-export default function CategoriasPage() {
+export default async function CategoriasPage() {
+  const supabase = await createClient()
+  const { data: categorias } = await supabase.from("categories").select("*")
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Categorias</h1>
-          <p className="text-sm text-gray-500 mt-1">7 categorias · 57 produtos distribuídos</p>
+          <p className="text-sm text-gray-500 mt-1">X categorias · YY produtos distribuídos</p>
         </div>
-        <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
-          <Plus size={16} />
-          Nova Categoria
-        </button>
+        <NovaCategoriaModal />
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -36,7 +27,7 @@ export default function CategoriasPage() {
             </tr>
           </thead>
           <tbody>
-            {categorias.map((c) => (
+            {(categorias ?? []).map((c) => (
               <tr key={c.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                 <td className="px-5 py-3.5 font-semibold text-gray-900">{c.nome}</td>
                 <td className="px-4 py-3.5 text-gray-500 text-xs max-w-xs">{c.descricao}</td>
